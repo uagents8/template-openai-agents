@@ -1,0 +1,35 @@
+{
+  "$comment": "One-click agent templates (#1882 Phase 2). This manifest is the single source of truth for the Configure step's env-var form once GET /v1/templates reads real published repos instead of backend/app/services/templates_catalog.py's mock list - keep the two in sync by hand until that happens (there is no shared-schema generation step between this repo and the uagents8 monorepo).",
+  "slug": "openai-agents",
+  "name": "OpenAI Agents SDK starter",
+  "framework": "OpenAI Agents SDK",
+  "description": "An OpenAI Agents SDK agent with one tool, behind FastAPI.",
+  "language": "python",
+  "entrypoint": "main.py",
+  "recommended_size": "T",
+  "measured_peak_memory_mb": 100,
+  "measured_on": "2026-10-31",
+  "providers": ["openai"],
+  "env_vars": [
+    {
+      "key": "OPENAI_API_KEY",
+      "label": "OpenAI API key",
+      "required": false,
+      "secret": true,
+      "provider": "openai",
+      "help_text": "The template still starts and answers without it - its one tool still runs for real, just without a model wrapping the result."
+    },
+    {
+      "key": "MODEL_NAME",
+      "label": "Model name",
+      "required": false,
+      "secret": false,
+      "help_text": "Optional override, e.g. gpt-4o-mini (the default)."
+    }
+  ],
+  "sample_request": {
+    "method": "POST",
+    "path": "/ask",
+    "body": { "question": "how long is this sentence" }
+  }
+}

@@ -1,0 +1,28 @@
+name: Platform deploy check
+
+# Weekly quality gate (#1882 Phase 2): deploys this exact template to the uagents8 platform's
+# own e2e sandbox from a Code Archive, calls POST /ask, then deletes the agent - see
+# scripts/deploy_check.py and OWNER-PUBLISH-TEMPLATE.md section 5 for the two secrets this
+# needs and the "dry-run once by hand before trusting the schedule" note.
+
+on:
+  schedule:
+    - cron: "15 7 * * 1" # Mondays, after ci.yml's own weekly run
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Deploy, call it, delete it
+        env:
+          UAGENTS8_E2E_API_TOKEN: ${{ secrets.UAGENTS8_E2E_API_TOKEN }}
+          UAGENTS8_API_URL: ${{ secrets.UAGENTS8_API_URL }}
+        run: python scripts/deploy_check.py

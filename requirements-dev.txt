@@ -1,0 +1,5 @@
+# Only for local checks - the platform's build does not install these.
+-r requirements.txt
+httpx==0.28.1
+pytest==9.1.1
+ruff==0.17.1
