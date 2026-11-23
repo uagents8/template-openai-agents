@@ -5,12 +5,10 @@
 An [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) agent behind
 [FastAPI](https://fastapi.tiangolo.com), ready to deploy on
 [uAgents8](https://uagents8.com) and to replace with your own agent and tools. One of three
-one-click framework templates planned for uAgents8: this one, LangGraph and CrewAI.
+one-click framework templates: LangGraph, CrewAI and this one.
 
-> **Today, the badge opens the dashboard**, where **+ Deploy Agent -> Source -> GitHub**,
-> pointed at this repository, deploys it in the steps below - a dedicated "Templates" option in
-> the wizard reads this repository directly once it is published (Phase 2 of issue #1882).
-> **Use this as a GitHub template.**
+> **Today, the badge opens the dashboard**, where **+ Deploy Agent -> Source -> Templates ->
+> OpenAI Agents SDK starter** deploys it in the steps below. **Use this as a GitHub template.**
 > Click **Use this template** above to create your own copy in *your* GitHub account - never a
 > write back to this repository. Download the code instead if you'd rather redeploy through
 > Code Archive.
