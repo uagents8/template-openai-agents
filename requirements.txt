@@ -11,7 +11,7 @@ cffi==2.1.1
 charset-normalizer==3.5.2
 click==8.5.0
 cryptography==50.0.2
-fastapi==0.143.3
+fastapi==0.165.0
 griffelib==2.4.1
 h11==0.16.0
 httpcore2==2.16.0
