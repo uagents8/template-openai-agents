@@ -1,10 +1,7 @@
-"""An OpenAI Agents SDK agent behind FastAPI - the uagents8 "OpenAI Agents SDK" template (#1882
-Phase 2).
+"""An OpenAI Agents SDK agent behind FastAPI - the uAgents8 "OpenAI Agents SDK" template.
 
-Forked from docs/marketing/framework-samples/openai-agents (verified green,
-docs/marketing/framework-e2e.md row 2, 2026-10-31) and kept deliberately close to that proven
-sample - same agent, same tool, same pinned dependencies - so nothing about the measured
-footprint changes.
+Kept deliberately close to a small, proven shape - same agent, same tool, same pinned
+dependencies - so nothing about the measured footprint changes.
 
   GET  /      health - the platform only checks that the port accepts connections
   POST /ask   {"question": "..."} -> {"question", "answer", "mode"}

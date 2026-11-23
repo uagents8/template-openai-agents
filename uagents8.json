@@ -1,5 +1,5 @@
 {
-  "$comment": "One-click agent templates (#1882 Phase 2). This manifest is the single source of truth for the Configure step's env-var form once GET /v1/templates reads real published repos instead of backend/app/services/templates_catalog.py's mock list - keep the two in sync by hand until that happens (there is no shared-schema generation step between this repo and the uagents8 monorepo).",
+  "$comment": "This manifest is the single source of truth for uAgents8's template catalog and the Configure step's env-var form. Keep this file and the platform's catalog in sync by hand - there is no shared-schema generation step yet.",
   "slug": "openai-agents",
   "name": "OpenAI Agents SDK starter",
   "framework": "OpenAI Agents SDK",
