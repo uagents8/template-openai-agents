@@ -1,9 +1,9 @@
 name: Platform deploy check
 
-# Weekly quality gate (#1882 Phase 2): deploys this exact template to the uagents8 platform's
-# own e2e sandbox from a Code Archive, calls POST /ask, then deletes the agent - see
-# scripts/deploy_check.py and OWNER-PUBLISH-TEMPLATE.md section 5 for the two secrets this
-# needs and the "dry-run once by hand before trusting the schedule" note.
+# Weekly quality gate: deploys this exact template to the uAgents8 platform's own e2e sandbox
+# from a Code Archive, calls POST /ask, then deletes the agent - see scripts/deploy_check.py
+# for the two secrets this needs and the "dry-run once by hand before trusting the schedule"
+# note.
 
 on:
   schedule:
