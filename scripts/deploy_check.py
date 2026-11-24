@@ -39,7 +39,14 @@ TOKEN = os.environ.get("UAGENTS8_E2E_API_TOKEN")
 SIZE = os.environ.get("DEPLOY_CHECK_SIZE", "T")
 TIMEOUT_S = int(os.environ.get("DEPLOY_CHECK_TIMEOUT_S", "300"))
 POLL_EVERY_S = 5
-TERMINAL_FAILURE_PHASES = {"failed_build", "failed_deploy", "failed_health_check"}
+# Mirrors backend/app/tasks/deployment.py's own DEPLOY_FAILURE_PHASES (confirmed live
+# 2026-11-24: this used to list only 3 of the 7 real terminal phases, so a failed_inspection
+# - the AI code-inspector rejecting the build before Kaniko ever runs - wasn't recognized as
+# terminal and this script waited out the full TIMEOUT_S instead of failing fast).
+TERMINAL_FAILURE_PHASES = {
+    "failed_inspection", "failed_security_scan", "failed_security_scan_infra", "failed_build",
+    "failed_health_check", "failed_deploy", "failed_infra_timeout",
+}
 
 # Must match main.py's NO_KEY_MESSAGE.format(tool_output="5 words, 25 characters") exactly -
 # the same question the smoke test uses, so the two checks stay provably in sync.
@@ -76,17 +83,11 @@ def _build_archive() -> bytes:
 
 
 def _upload_archive(archive_bytes: bytes) -> str:
-    boundary = uuid.uuid4().hex
-    body = (
-        f"--{boundary}\r\n"
-        f'Content-Disposition: form-data; name="file"; filename="template-openai-agents.zip"\r\n'
-        "Content-Type: application/zip\r\n\r\n"
-    ).encode()
-    body += archive_bytes
-    body += f"\r\n--{boundary}--\r\n".encode()
-    response = _request(
-        "POST", "/v1/apps/upload", body=body, content_type=f"multipart/form-data; boundary={boundary}",
-    )
+    # POST /v1/apps/upload reads the raw request body directly (request.stream()), never
+    # multipart/form-data (confirmed live 2026-11-24: a multipart-wrapped body corrupts the
+    # archive the backend tries to unzip, which the AI code inspector then rejects outright -
+    # see that endpoint's own docstring in the main uagents8/uagents8 repo for why).
+    response = _request("POST", "/v1/apps/upload", body=archive_bytes, content_type="application/zip")
     return response["source_archive_key"]
 
 
