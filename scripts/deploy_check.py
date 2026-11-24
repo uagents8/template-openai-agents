@@ -114,7 +114,9 @@ def _wait_for_running(app_id: str) -> dict:
     while time.monotonic() < deadline:
         app = _request("GET", f"/v1/apps/{app_id}")
         status = app.get("status")
-        if status == "running":
+        # The real App.status value is "live" (confirmed live 2026-11-24 - this script
+        # checked for "running", which this backend never actually sets).
+        if status == "live":
             return app
         if app.get("deploy_phase") in TERMINAL_FAILURE_PHASES or status == "crashed":
             raise RuntimeError(f"Deploy failed: status={status!r} deploy_phase={app.get('deploy_phase')!r} "
