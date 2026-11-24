@@ -28,7 +28,13 @@ import zipfile
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-API_URL = os.environ.get("UAGENTS8_API_URL", "https://api.uagents8.com").rstrip("/")
+# `os.environ.get(key, default)` only falls back when the key is UNSET - the workflow's
+# own `env: UAGENTS8_API_URL: ${{ secrets.UAGENTS8_API_URL }}` sets it to an empty string
+# (not unset) whenever that optional secret is not configured, so `or` is needed here, not
+# just a `.get()` default (confirmed live 2026-11-24: a bare `.get()` default sent a
+# relative-path request with no scheme/host and failed with a `ValueError` before ever
+# reaching the network).
+API_URL = (os.environ.get("UAGENTS8_API_URL") or "https://api.uagents8.com").rstrip("/")
 TOKEN = os.environ.get("UAGENTS8_E2E_API_TOKEN")
 SIZE = os.environ.get("DEPLOY_CHECK_SIZE", "T")
 TIMEOUT_S = int(os.environ.get("DEPLOY_CHECK_TIMEOUT_S", "300"))
