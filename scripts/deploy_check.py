@@ -91,7 +91,10 @@ def _upload_archive(archive_bytes: bytes) -> str:
 
 
 def _create_app(source_archive_key: str) -> dict:
-    name = f"template-openai-agents-deploy-check-{uuid.uuid4().hex[:8]}"
+    # Short on purpose: the platform's own MAX_APP_NAME_LENGTH is 30 chars (the real
+    # Kubernetes-namespace budget, confirmed live 2026-11-24 - this name used to be a
+    # ~38-char "template-<framework>-deploy-check-<hex>" and got a 422 for it).
+    name = f"tpl-oai-chk-{uuid.uuid4().hex[:8]}"
     payload = {
         "name": name,
         "source_type": "archive",
